@@ -2,6 +2,7 @@ package TermProject;
 
 import java.util.Scanner;
 import java.util.Random;
+import java.util.InputMismatchException;
 
 public class RCPtest {
 	
@@ -9,7 +10,7 @@ public class RCPtest {
 	private static int comnum;
 	private static int coin = 20;
 	private static int getcoin;
-	
+
 	static void coinCheck() { //user의 코인을 check하는 method
 		
 		System.out.println("현재" + coin + "개의 코인을 가지고 있습니다.");
@@ -24,8 +25,7 @@ public class RCPtest {
 		
 	static void userInput() { //user한테 가위바위보 중 한가지를 입력받는 method
 		
-		Scanner scanner = new Scanner(System.in);
-		
+		Scanner scanner = new Scanner(System.in);	
 		if(coin > 0) {
 			coin = coin - 1;
 			System.out.printf("가위바위보에서 낼 것을 선택하세요(0. 가위, 1. 바위, 2. 보) : ");
@@ -40,11 +40,11 @@ public class RCPtest {
 				System.out.println("당신은 보를 선택하였습니다.");
 			}
 			else {
-				System.out.println("잘못 된 입력을 하였습니다.");
+				System.out.println("잘못 된 입력을 하였습니다."); //예외처리
 				return;
 			}
 		}
-	}
+}
 	
 	static void comOutput () { //computer가 가위바위보 중 무엇을 내는지 출력해주는 method
 		
@@ -76,10 +76,40 @@ public class RCPtest {
 	
 	public static void main(String args[]) {
 		
+		int gamenum;
 		Scanner scanner = new Scanner(System.in);
 		Random random = new Random();
 		
-		coinCheck();
+		while(true) {
+			coinCheck();
+			System.out.printf("게임을 진행하시겠습니까? (1. 진행, 2. 나가기)");
+			gamenum = scanner.nextInt();
+			
+			if(gamenum == 1) {
+				userInput();
+				comOutput();
+
+				if(usernum == comnum) {
+					System.out.println("비겼습니다!");
+				}
+				else if((usernum == 0 && comnum == 1) || (usernum == 1 && comnum == 2) || (usernum == 2 && comnum == 0)) {
+					System.out.println("패배하였습니다!");
+				}
+				else if((usernum == 1 && comnum == 0) || (usernum == 2 && comnum == 1) || (usernum == 0 && comnum == 2)) {
+					System.out.println("승리하였습니다!");
+					getCoin();
+			}
+			else if(gamenum == 2) {
+				break;
+			}
+			else {
+				System.out.println("잘못입력하였습니다."); //예외처리
+			}
+		}
+		}
+	}
+}
+/*		coinCheck();
 		userInput();
 		comOutput();
 
@@ -94,5 +124,4 @@ public class RCPtest {
 			
 			getCoin();
 		}
-	}
-}
+	}*/
